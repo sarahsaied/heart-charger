@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>تحدي شاحن القلب بنور الصلاة 💖 | طريق الجنة</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-gradient: linear-gradient(135deg, #180d2b 0%, #2a1645 40%, #441c59 70%, #200d33 100%);
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --card-border: rgba(255, 215, 0, 0.25);
+      --card-hover: rgba(255, 255, 255, 0.14);
+      --primary-pink: #ff6b9d;
+      --primary-gold: #ffd15c;
+      --primary-peach: #ffa07a;
+      --primary-cyan: #70e4ef;
+      --accent-glow: rgba(255, 107, 157, 0.6);
+      --gold-glow: rgba(255, 209, 92, 0.6);
+      --text-white: #ffffff;
+      --text-muted: #e2d4f0;
+      --success-green: #4ade80;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background: var(--bg-gradient);
+      min-height: 100vh;
+      color: var(--text-white);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Ambient Floating Stars Canvas */
+    #ambient-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .main-container {
+      width: 100%;
+      max-width: 780px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* Header Bar */
+    header {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: 18px 16px;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -50%;
+      width: 200%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--primary-pink), var(--primary-gold), var(--primary-pink), transparent);
+      animation: headerShine 4s linear infinite;
+    }
+
+    @keyframes headerShine {
+      0% { transform: translateX(-30%); }
+      100% { transform: translateX(30%); }
+    }
+
+    .badge-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 14px;
+      background: rgba(255, 107, 157, 0.22);
+      border: 1px solid var(--primary-pink);
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #ffd6e4;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #fff 20%, var(--primary-gold) 60%, var(--primary-pink) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Sound and controls bar */
+    .top-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 0.85rem;
+    }
+
+    .control-btn {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-white);
+      padding: 6px 12px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .control-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-1px);
+    }
+
+    /* Days Tab Navigation */
+    .days-nav {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 2px 10px 2px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .days-nav::-webkit-scrollbar {
+      display: none;
+    }
+
+    .day-tab {
+      flex: 1;
+      min-width: 76px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      padding: 10px 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+
+    .day-tab:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .day-tab.active {
+      background: linear-gradient(135deg, rgba(255, 107, 157, 0.35), rgba(255, 209, 92, 0.3));
+      border-color: var(--primary-gold);
+      box-shadow: 0 0 16px rgba(255, 209, 92, 0.4);
+      transform: scale(1.04);
+    }
+
+    .day-tab .day-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: block;
+      color: var(--text-muted);
+    }
+
+    .day-tab.active .day-name {
+      color: #fff;
+    }
+
+    .day-tab .day-score {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: var(--primary-gold);
+      margin-top: 2px;
+      display: block;
+    }
+
+    .day-tab.completed::after {
+      content: '👑';
+      position: absolute;
+      top: -8px;
+      right: -4px;
+      font-size: 0.85rem;
+    }
+
+    /* Central Heart Stage */
+    .heart-stage {
+      background: radial-gradient(circle at center, rgba(255, 107, 157, 0.18) 0%, rgba(26, 13, 44, 0.7) 70%);
+      border: 1px solid rgba(255, 215, 0, 0.22);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 28px;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .heart-wrapper {
+      position: relative;
+      width: 170px;
+      height: 160px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .heart-glow-ring {
+      position: absolute;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-glow) 0%, rgba(255, 209, 92, 0.3) 40%, transparent 70%);
+      filter: blur(12px);
+      animation: pulseGlow 3s ease-in-out infinite;
+      opacity: 0.7;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(0.92); opacity: 0.6; }
+      50% { transform: scale(1.1); opacity: 0.95; }
+    }
+
+    .heart-svg {
+      width: 150px;
+      height: 140px;
+      filter: drop-shadow(0 0 18px rgba(255, 107, 157, 0.65));
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .heart-svg.beating {
+      animation: heartBeat 0.5s ease-in-out;
+    }
+
+    @keyframes heartBeat {
+      0% { transform: scale(1); }
+      30% { transform: scale(1.18); filter: drop-shadow(0 0 30px var(--primary-gold)); }
+      60% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+
+    .heart-center-text {
+      position: absolute;
+      top: 52%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      pointer-events: none;
+    }
+
+    .heart-center-percent {
+      font-size: 1.7rem;
+      font-weight: 900;
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+      display: block;
+      line-height: 1;
+    }
+
+    .heart-center-sub {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--primary-gold);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Counters & Progress Row */
+    .metrics-row {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .metric-card {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 10px 14px;
+      text-align: center;
+    }
+
+    .metric-title {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .metric-value {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .metric-value .max-val {
+      font-size: 0.85rem;
+      color: var(--primary-gold);
+      font-weight: 700;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary-pink), var(--primary-gold));
+      border-radius: 10px;
+      transition: width 0.4s ease;
+      box-shadow: 0 0 10px var(--primary-gold);
+    }
+
+    /* Motivational Status Banner */
+    .status-banner {
+      margin-top: 14px;
+      background: rgba(255, 215, 0, 0.12);
+      border: 1px dashed rgba(255, 209, 92, 0.5);
+      border-radius: 14px;
+      padding: 10px 14px;
+      font-size: 0.88rem;
+      color: #fff6d9;
+      font-weight: 600;
+      text-align: center;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    /* Girls Section */
+    .girls-section {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 4px;
+    }
+
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--primary-gold);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .girls-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    /* Girl Card */
+    .girl-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 14px 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      transition: all 0.25s ease;
+    }
+
+    .girl-card.all-done {
+      border-color: rgba(74, 222, 128, 0.5);
+      background: rgba(74, 222, 128, 0.08);
+      box-shadow: 0 0 20px rgba(74, 222, 128, 0.15);
+    }
+
+    .girl-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .girl-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .girl-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-pink), var(--primary-gold));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+    }
+
+    .girl-name-input {
+      background: transparent;
+      border: 1px dashed transparent;
+      color: #fff;
+      font-size: 1.05rem;
+      font-weight: 800;
+      padding: 2px 6px;
+      border-radius: 8px;
+      width: 140px;
+      transition: border-color 0.2s;
+    }
+
+    .girl-name-input:focus {
+      outline: none;
+      border-color: var(--primary-gold);
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .girl-badge-count {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary-gold);
+      background: rgba(255, 255, 255, 0.1);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .dhikr-toggle-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      padding: 4px 8px;
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .dhikr-toggle-btn.active {
+      background: rgba(112, 228, 239, 0.25);
+      border-color: var(--primary-cyan);
+      color: #c9fbff;
+      font-weight: 700;
+    }
+
+    /* Prayer Buttons Grid */
+    .prayers-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+    }
+
+    .prayer-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 10px 4px;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      user-select: none;
+    }
+
+    .prayer-btn:active {
+      transform: scale(0.92);
+    }
+
+    .prayer-icon {
+      font-size: 1.25rem;
+      transition: transform 0.2s;
+    }
+
+    .prayer-name {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .prayer-btn.checked {
+      background: linear-gradient(135deg, rgba(255, 107, 157, 0.45) 0%, rgba(255, 209, 92, 0.45) 100%);
+      border-color: var(--primary-gold);
+      box-shadow: 0 0 14px rgba(255, 209, 92, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .prayer-btn.checked .prayer-name {
+      color: #fff;
+    }
+
+    .prayer-btn.checked .prayer-icon {
+      transform: scale(1.15);
+    }
+
+    .prayer-btn.checked::after {
+      content: '✨';
+      position: absolute;
+      top: -4px;
+      left: -2px;
+      font-size: 0.75rem;
+    }
+
+    /* Actions Bottom Bar */
+    .actions-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .action-btn-primary {
+      background: linear-gradient(135deg, #ff6b9d 0%, #ff8e53 100%);
+      border: none;
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 800;
+      padding: 14px 18px;
+      border-radius: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 8px 24px rgba(255, 107, 157, 0.4);
+      transition: all 0.25s ease;
+    }
+
+    .action-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(255, 107, 157, 0.6);
+    }
+
+    .action-btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      font-size: 0.92rem;
+      font-weight: 700;
+      padding: 14px 18px;
+      border-radius: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .action-btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-2px);
+    }
+
+    /* Footer Note */
+    footer {
+      text-align: center;
+      padding: 18px 10px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      margin-top: 10px;
+    }
+
+    footer a {
+      color: var(--primary-gold);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: rgba(20, 10, 35, 0.92);
+      border: 1px solid var(--primary-gold);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 50px;
+      font-size: 0.92rem;
+      font-weight: 700;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 1000;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      pointer-events: none;
+    }
+
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Celebration Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 5, 20, 0.85);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      padding: 20px;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-card {
+      background: linear-gradient(135deg, #2a1645 0%, #441c59 100%);
+      border: 2px solid var(--primary-gold);
+      border-radius: 28px;
+      padding: 30px 24px;
+      max-width: 460px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(255, 209, 92, 0.35);
+      transform: scale(0.85);
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    .modal-overlay.open .modal-card {
+      transform: scale(1);
+    }
+
+    .modal-icon {
+      font-size: 3.5rem;
+      margin-bottom: 12px;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--primary-gold);
+      margin-bottom: 8px;
+    }
+
+    .modal-body {
+      font-size: 0.95rem;
+      color: #f3e8ff;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .modal-close-btn {
+      background: linear-gradient(135deg, var(--primary-pink), var(--primary-gold));
+      border: none;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 12px 30px;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(255, 107, 157, 0.4);
+    }
+
+    @media print {
+      body {
+        background: #fff !important;
+        color: #000 !important;
+        padding: 0;
+      }
+      #ambient-canvas, .days-nav, .actions-bar, .top-controls, header::before, .heart-glow-ring {
+        display: none !important;
+      }
+      .main-container {
+        max-width: 100%;
+      }
+      .heart-stage {
+        background: none !important;
+        border: 2px solid #ff6b9d !important;
+        box-shadow: none !important;
+        color: #000 !important;
+      }
+      .girl-card {
+        background: #fff !important;
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+        page-break-inside: avoid;
+      }
+      .prayer-btn {
+        border: 1px solid #999 !important;
+        color: #000 !important;
+      }
+      .prayer-btn.checked {
+        background: #ffe6ee !important;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.45rem; }
+      .day-tab { min-width: 66px; padding: 8px 4px; }
+      .prayer-btn { padding: 8px 2px; }
+      .prayer-name { font-size: 0.7rem; }
+      .prayer-icon { font-size: 1.1rem; }
+      .girl-name-input { width: 110px; font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient Floating Particles Canvas -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <div class="main-container">
+    
+    <!-- Top Header -->
+    <header>
+      <div class="badge-tag">🌸 بطلات طريق الجنة • المحاضرة الثانية 🌸</div>
+      <h1>تحدي شاحن القلب بنور الصلاة 💖</h1>
+      <p class="subtitle">«أرِحنا بها يا بلال.. شاحن قلوبنا المباشر مع الملك الرحيم»</p>
+      
+      <div class="top-controls">
+        <button class="control-btn" id="sound-toggle" onclick="toggleAudio()">
+          <span id="sound-icon">🔔</span> الصوت: <span id="sound-status">مفعّل</span>
+        </button>
+        <div style="color: var(--primary-gold); font-weight: 700;">
+          👑 هدف الأسبوع: 175 نبضة نور
+        </div>
+        <button class="control-btn" onclick="resetAllDataPrompt()">
+          🔄 إعادة الضبط
+        </button>
+      </div>
+    </header>
+
+    <!-- Days Navigation Tab -->
+    <nav class="days-nav" id="days-nav" aria-label="أيام الأسبوع السبعة">
+      <!-- Generated via JS -->
+    </nav>
+
+    <!-- Central Glowing Heart Stage -->
+    <section class="heart-stage">
+      <div class="heart-wrapper">
+        <div class="heart-glow-ring" id="heart-glow"></div>
+        <svg class="heart-svg" id="heart-svg" viewBox="0 0 100 90">
+          <defs>
+            <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#ff6b9d" />
+              <stop offset="50%" stop-color="#ff8e53" />
+              <stop offset="100%" stop-color="#ffd15c" />
+            </linearGradient>
+            <linearGradient id="heartEmpty" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="rgba(255, 255, 255, 0.15)" />
+              <stop offset="100%" stop-color="rgba(255, 255, 255, 0.05)" />
+            </linearGradient>
+            <clipPath id="heartClip">
+              <path d="M 50,85 A 40,40 0 0,1 5,40 A 25,25 0 0,1 50,22 A 25,25 0 0,1 95,40 A 40,40 0 0,1 50,85 Z" />
+            </clipPath>
+          </defs>
+          <!-- Background Empty Heart -->
+          <path d="M 50,85 A 40,40 0 0,1 5,40 A 25,25 0 0,1 50,22 A 25,25 0 0,1 95,40 A 40,40 0 0,1 50,85 Z" 
+                fill="url(#heartEmpty)" stroke="rgba(255, 215, 0, 0.4)" stroke-width="1.5" />
+          <!-- Filled Liquid / Glowing Heart clipped -->
+          <g clip-path="url(#heartClip)">
+            <rect id="heart-fill-rect" x="0" y="90" width="100" height="90" fill="url(#heartGradient)" 
+                  style="transition: y 0.5s ease-out;" />
+          </g>
+          <!-- Outer decorative border -->
+          <path d="M 50,85 A 40,40 0 0,1 5,40 A 25,25 0 0,1 50,22 A 25,25 0 0,1 95,40 A 40,40 0 0,1 50,85 Z" 
+                fill="none" stroke="rgba(255, 255, 255, 0.3)" stroke-width="1" />
+        </svg>
+        
+        <div class="heart-center-text">
+          <span class="heart-center-percent" id="heart-percent">0%</span>
+          <span class="heart-center-sub" id="heart-sub-text">شحن اليوم</span>
+        </div>
+      </div>
+
+      <!-- Metrics Row -->
+      <div class="metrics-row">
+        <div class="metric-card">
+          <div class="metric-title">⚡ شاحن اليوم المحدد</div>
+          <div class="metric-value">
+            <span id="day-score">0</span><span class="max-val"> / 25 صلاة</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="day-progress-bar"></div>
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-title">🌟 إجمالي الأسبوع الكلي</div>
+          <div class="metric-value">
+            <span id="week-score">0</span><span class="max-val"> / 175 نبضة</span>
+          </div>
+          <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="week-progress-bar"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Motivational status text -->
+      <div class="status-banner" id="status-banner">
+        <span>🔋</span> <span id="status-text">يلا يا بطلات نبدأ نشحن قلوبنا بنور صلاة الفجر!</span>
+      </div>
+    </section>
+
+    <!-- Girls Cards Section -->
+    <section class="girls-section">
+      <div class="section-header">
+        <h2 class="section-title">
+          <span>👑</span> بطلات الفريق الخمس (اضغطي صلاتكِ لتشحني القلب)
+        </h2>
+        <span class="girls-note">اضغطي على الاسم لتعديله ✏️</span>
+      </div>
+
+      <div id="girls-list">
+        <!-- Generated via JS -->
+      </div>
+    </section>
+
+    <!-- Actions Bar -->
+    <section class="actions-bar">
+      <button class="action-btn-primary" onclick="copyWhatsAppReport()">
+        <span>📲</span> نسخ تقرير اليوم للواتساب
+      </button>
+      <button class="action-btn-secondary" onclick="window.print()">
+        <span>🖨️</span> طباعة لوحة التحدي
+      </button>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      مبادرة «طريق الجنة» للفتيات • بإشراف <a href="#">سارة سعيد</a> • معاً حتى نلقى الله بقلب سليم 🌸
+    </footer>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast">
+    <span id="toast-icon">✨</span>
+    <span id="toast-msg">تم نسخ التقرير بنجاح!</span>
+  </div>
+
+  <!-- Celebration Modal -->
+  <div class="modal-overlay" id="celebration-modal">
+    <div class="modal-card">
+      <div class="modal-icon" id="modal-icon">🎉</div>
+      <h3 class="modal-title" id="modal-title">مبارك يا بطلات النور!</h3>
+      <p class="modal-body" id="modal-body">
+        اكتمل شحن اليوم بنجاح الفريق الواحد! أنتن فخر طريق الجنة، والله مطّلع على صدقكن وسعيكن الجميل.
+      </p>
+      <button class="modal-close-btn" onclick="closeModal()">استكمال رحلة النور 💖</button>
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================
+       1. DATA STRUCTURE & INITIAL STATE
+       ========================================================== */
+    const TOTAL_DAYS = 7;
+    const GIRLS_COUNT = 5;
+    const PRAYERS_COUNT = 5;
+    const DAY_TARGET = 25;
+    const WEEK_TARGET = 175;
+
+    const DEFAULT_PRAYERS = [
+      { id: 'fajr', name: 'الفجر', icon: '🌅', dhikr: 'ورد الفجر' },
+      { id: 'dhuhr', name: 'الظهر', icon: '☀️', dhikr: 'ورد الظهر' },
+      { id: 'asr', name: 'العصر', icon: '🌤️', dhikr: 'ورد العصر' },
+      { id: 'maghrib', name: 'المغرب', icon: '🌇', dhikr: 'ورد المغرب' },
+      { id: 'isha', name: 'العشاء', icon: '🌙', dhikr: 'ورد العشاء' }
+    ];
+
+    const DEFAULT_GIRLS = [
+      { id: 1, name: 'البطلة 1', avatar: '🌸' },
+      { id: 2, name: 'البطلة 2', avatar: '💖' },
+      { id: 3, name: 'البطلة 3', avatar: '⭐' },
+      { id: 4, name: 'البطلة 4', avatar: '🦋' },
+      { id: 5, name: 'البطلة 5', avatar: '👑' }
+    ];
+
+    const DAY_NAMES = [
+      'اليوم 1', 'اليوم 2', 'اليوم 3', 'اليوم 4', 'اليوم 5', 'اليوم 6', 'اليوم 7'
+    ];
+
+    let currentDayIndex = 0;
+    let audioEnabled = true;
+
+    // Load or initialize state
+    const STORAGE_KEY = 'tarik_aljannah_heart_charger_v1';
+    let appState = loadState();
+
+    function getInitialState() {
+      const days = [];
+      for (let d = 0; d < TOTAL_DAYS; d++) {
+        const girlsData = [];
+        for (let g = 0; g < GIRLS_COUNT; g++) {
+          girlsData.push({
+            isDhikr: false,
+            prayers: { fajr: false, dhuhr: false, asr: false, maghrib: false, isha: false }
+          });
+        }
+        days.push(girlsData);
+      }
+      return {
+        girlsInfo: JSON.parse(JSON.stringify(DEFAULT_GIRLS)),
+        days: days
+      };
+    }
+
+    function loadState() {
+      try {
+        const data = localStorage.getItem(STORAGE_KEY);
+        if (data) return JSON.parse(data);
+      } catch (e) {
+        console.warn('LocalStorage not available', e);
+      }
+      return getInitialState();
+    }
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
+      } catch (e) {
+        console.warn('Save error', e);
+      }
+    }
+
+    /* ==========================================================
+       2. SYNTHESIZED WEB AUDIO (Pure, Gentle Chimes)
+       ========================================================== */
+    let audioCtx = null;
+
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    function playChime(type = 'prayer') {
+      if (!audioEnabled) return;
+      try {
+        initAudio();
+        if (!audioCtx) return;
+
+        const now = audioCtx.currentTime;
+
+        if (type === 'prayer') {
+          const freqs = [1046.50, 1318.51, 1567.98];
+          freqs.forEach((freq, idx) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.04);
+
+            gain.gain.setValueAtTime(0, now + idx * 0.04);
+            gain.gain.linearRampToValueAtTime(0.12, now + idx * 0.04 + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.04 + 0.65);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now + idx * 0.04);
+            osc.stop(now + idx * 0.04 + 0.7);
+          });
+        } else if (type === 'victory') {
+          const freqs = [523.25, 783.99, 1046.50, 1318.51, 1567.98];
+          freqs.forEach((freq, idx) => {
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+
+            gain.gain.setValueAtTime(0, now + idx * 0.08);
+            gain.gain.linearRampToValueAtTime(0.18, now + idx * 0.08 + 0.03);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + idx * 0.08 + 1.2);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start(now + idx * 0.08);
+            osc.stop(now + idx * 0.08 + 1.3);
+          });
+        }
+      } catch (err) {
+        console.log('Audio error:', err);
+      }
+    }
+
+    function toggleAudio() {
+      audioEnabled = !audioEnabled;
+      const icon = document.getElementById('sound-icon');
+      const status = document.getElementById('sound-status');
+      if (audioEnabled) {
+        icon.textContent = '🔔';
+        status.textContent = 'مفعّل';
+        showToast('تم تفعيل المؤثرات الصوتية 🔔');
+        playChime('prayer');
+      } else {
+        icon.textContent = '🔕';
+        status.textContent = 'مكتوم';
+        showToast('تم كتم الصوت 🔕');
+      }
+    }
+
+    /* ==========================================================
+       3. AMBIENT PARTICLES CANVAS
+       ========================================================== */
+    const canvas = document.getElementById('ambient-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    class Particle {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2.2 + 0.8;
+        this.speedY = -(Math.random() * 0.4 + 0.1);
+        this.speedX = (Math.random() - 0.5) * 0.2;
+        this.opacity = Math.random() * 0.7 + 0.2;
+        this.color = Math.random() > 0.5 ? '#ffd15c' : '#ff6b9d';
+      }
+      update() {
+        this.y += this.speedY;
+        this.x += this.speedX;
+        if (this.y < 0) {
+          this.y = canvas.height;
+          this.x = Math.random() * canvas.width;
+        }
+      }
+      draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.opacity;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = this.color;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
+      }
+    }
+
+    for (let i = 0; i < 45; i++) {
+      particles.push(new Particle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    /* ==========================================================
+       4. CALCULATIONS & STATS
+       ========================================================== */
+    function getDayScore(dayIdx) {
+      let score = 0;
+      const dayData = appState.days[dayIdx];
+      for (let g = 0; g < GIRLS_COUNT; g++) {
+        const prayers = dayData[g].prayers;
+        DEFAULT_PRAYERS.forEach(p => {
+          if (prayers[p.id]) score++;
+        });
+      }
+      return score;
+    }
+
+    function getWeekTotalScore() {
+      let total = 0;
+      for (let d = 0; d < TOTAL_DAYS; d++) {
+        total += getDayScore(d);
+      }
+      return total;
+    }
+
+    function getGirlDayScore(dayIdx, girlIdx) {
+      let count = 0;
+      const prayers = appState.days[dayIdx][girlIdx].prayers;
+      DEFAULT_PRAYERS.forEach(p => {
+        if (prayers[p.id]) count++;
+      });
+      return count;
+    }
+
+    /* ==========================================================
+       5. UI RENDERING
+       ========================================================== */
+    function renderDaysNav() {
+      const nav = document.getElementById('days-nav');
+      nav.innerHTML = '';
+
+      DAY_NAMES.forEach((name, idx) => {
+        const score = getDayScore(idx);
+        const isCompleted = score >= DAY_TARGET;
+        const isActive = idx === currentDayIndex;
+
+        const tab = document.createElement('div');
+        tab.className = `day-tab ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}`;
+        tab.onclick = () => selectDay(idx);
+
+        tab.innerHTML = `
+          <span class="day-name">${name}</span>
+          <span class="day-score">${score}/25</span>
+        `;
+        nav.appendChild(tab);
+      });
+    }
+
+    function renderStageAndMetrics() {
+      const dayScore = getDayScore(currentDayIndex);
+      const weekScore = getWeekTotalScore();
+      const dayPercent = Math.min(100, Math.round((dayScore / DAY_TARGET) * 100));
+      const weekPercent = Math.min(100, Math.round((weekScore / WEEK_TARGET) * 100));
+
+      document.getElementById('day-score').textContent = dayScore;
+      document.getElementById('week-score').textContent = weekScore;
+      document.getElementById('heart-percent').textContent = `${dayPercent}%`;
+      document.getElementById('day-progress-bar').style.width = `${dayPercent}%`;
+      document.getElementById('week-progress-bar').style.width = `${weekPercent}%`;
+
+      const fillY = 90 - (dayPercent * 0.75);
+      document.getElementById('heart-fill-rect').setAttribute('y', fillY);
+
+      const glow = document.getElementById('heart-glow');
+      if (dayPercent === 100) {
+        glow.style.opacity = '1';
+        glow.style.filter = 'blur(20px)';
+      } else {
+        glow.style.opacity = `${0.35 + (dayPercent * 0.0055)}`;
+      }
+
+      const banner = document.getElementById('status-text');
+      if (dayScore === 0) {
+        banner.textContent = `يلا يا بطلات نبدأ نشحن قلوبنا بنور صلوات ${DAY_NAMES[currentDayIndex]}! 🌸`;
+      } else if (dayScore < 10) {
+        banner.textContent = `بداية مباركة! شحنا ${dayScore} نبضات، والنور بدأ يظهر في القلب! ✨`;
+      } else if (dayScore < 20) {
+        banner.textContent = `ما شاء الله! عدينا نص اليوم (${dayScore}/25)، استمروا بروح الفريق الواحد! 🔌💖`;
+      } else if (dayScore < 25) {
+        banner.textContent = `باقي ${25 - dayScore} صلوات فقط ونقفل شاحن اليوم 100%! يلا يا بطلات! 🚀🌟`;
+      } else {
+        banner.textContent = `👑 كفو يا بطلات محراب النور! اكتمل شاحن ${DAY_NAMES[currentDayIndex]} بنسبة 100%! احتفلوا بالفوز! 💖`;
+      }
+    }
+
+    function renderGirlsList() {
+      const container = document.getElementById('girls-list');
+      container.innerHTML = '';
+
+      const dayData = appState.days[currentDayIndex];
+
+      appState.girlsInfo.forEach((girl, gIdx) => {
+        const girlData = dayData[gIdx];
+        const girlScore = getGirlDayScore(currentDayIndex, gIdx);
+        const isAllDone = girlScore === 5;
+
+        const card = document.createElement('div');
+        card.className = `girl-card ${isAllDone ? 'all-done' : ''}`;
+
+        const topRow = document.createElement('div');
+        topRow.className = 'girl-card-top';
+
+        topRow.innerHTML = `
+          <div class="girl-info">
+            <div class="girl-avatar" onclick="cycleAvatar(${gIdx})">${girl.avatar}</div>
+            <input type="text" class="girl-name-input" value="${escapeHtml(girl.name)}" 
+                   onchange="updateGirlName(${gIdx}, this.value)" title="اضغطي لتعديل الاسم">
+            <button class="dhikr-toggle-btn ${girlData.isDhikr ? 'active' : ''}" 
+                    onclick="toggleDhikrMode(${gIdx})" title="في حالة العذر الشرعي، تحتسب الأذكار صلاة تامة">
+              ${girlData.isDhikr ? '📿 ورد الذكر' : '🌸 صلاة'}
+            </button>
+          </div>
+          <div class="girl-badge-count">
+            ${girlScore}/5 ${isAllDone ? '🌟' : ''}
+          </div>
+        `;
+
+        const grid = document.createElement('div');
+        grid.className = 'prayers-grid';
+
+        DEFAULT_PRAYERS.forEach(p => {
+          const isChecked = girlData.prayers[p.id];
+          const displayName = girlData.isDhikr ? p.dhikr : p.name;
+          const displayIcon = girlData.isDhikr ? '📿' : p.icon;
+
+          const btn = document.createElement('div');
+          btn.className = `prayer-btn ${isChecked ? 'checked' : ''}`;
+          btn.onclick = () => togglePrayer(gIdx, p.id);
+
+          btn.innerHTML = `
+            <span class="prayer-icon">${displayIcon}</span>
+            <span class="prayer-name">${displayName}</span>
+          `;
+          grid.appendChild(btn);
+        });
+
+        card.appendChild(topRow);
+        card.appendChild(grid);
+        container.appendChild(card);
+      });
+    }
+
+    function renderAll() {
+      renderDaysNav();
+      renderStageAndMetrics();
+      renderGirlsList();
+    }
+
+    /* ==========================================================
+       6. INTERACTION LOGIC
+       ========================================================== */
+    function selectDay(dayIdx) {
+      currentDayIndex = dayIdx;
+      initAudio();
+      renderAll();
+    }
+
+    function togglePrayer(girlIdx, prayerId) {
+      initAudio();
+      const dayData = appState.days[currentDayIndex];
+      const prevScore = getDayScore(currentDayIndex);
+      const isNowChecked = !dayData[girlIdx].prayers[prayerId];
+      dayData[girlIdx].prayers[prayerId] = isNowChecked;
+
+      saveState();
+      renderAll();
+
+      if (isNowChecked) {
+        playChime('prayer');
+        triggerHeartBeat();
+
+        const newScore = getDayScore(currentDayIndex);
+        const weekScore = getWeekTotalScore();
+
+        if (prevScore < DAY_TARGET && newScore === DAY_TARGET) {
+          setTimeout(() => {
+            playChime('victory');
+            showModal(
+              '🎉👑 مبارك يا بطلات النور!',
+              `تم شحن ${DAY_NAMES[currentDayIndex]} بالكامل 25/25 صلاة بنجاح الفريق الواحد! الله مطّلع على صدقكن وسعيكن الجميل، والقلب ينور بفضل الله ثم تعاونكن المبارك 💖`
+            );
+          }, 300);
+        } else if (weekScore === WEEK_TARGET) {
+          setTimeout(() => {
+            playChime('victory');
+            showModal(
+              '🏆 تاج الوقار والفوز العظيم! 🌟',
+              `ألف مبارك لكل بطلة في فريق طريق الجنة! حققتن 175 نبضة نور على مدار الأسبوع كاملاً بنسبة 100%! شحنتم قلوبكم بالحب والصلة بالله.. هنيئاً لكن هذا الإنجاز العظيم! 🌸👑`
+            );
+          }, 300);
+        }
+      }
+    }
+
+    function toggleDhikrMode(girlIdx) {
+      initAudio();
+      const girlData = appState.days[currentDayIndex][girlIdx];
+      girlData.isDhikr = !girlData.isDhikr;
+      saveState();
+      renderAll();
+      showToast(girlData.isDhikr ? 'تم تفعيل رخصة أوراد الذكر 📿' : 'تم العودة لنمط الصلاة 🌸');
+    }
+
+    function updateGirlName(girlIdx, newName) {
+      const cleanName = newName.trim();
+      if (cleanName) {
+        appState.girlsInfo[girlIdx].name = cleanName;
+        saveState();
+        renderAll();
+        showToast(`تم حفظ اسم ${cleanName} ✨`);
+      }
+    }
+
+    const AVATAR_LIST = ['🌸', '💖', '⭐', '🦋', '👑', '🌷', '🌿', '💎', '🕊️', '✨'];
+    function cycleAvatar(girlIdx) {
+      const current = appState.girlsInfo[girlIdx].avatar;
+      const currIdx = AVATAR_LIST.indexOf(current);
+      const nextAvatar = AVATAR_LIST[(currIdx + 1) % AVATAR_LIST.length];
+      appState.girlsInfo[girlIdx].avatar = nextAvatar;
+      saveState();
+      renderAll();
+    }
+
+    function triggerHeartBeat() {
+      const heart = document.getElementById('heart-svg');
+      heart.classList.remove('beating');
+      void heart.offsetWidth;
+      heart.classList.add('beating');
+    }
+
+    /* ==========================================================
+       7. WHATSAPP REPORT GENERATOR
+       ========================================================== */
+    function copyWhatsAppReport() {
+      const dayScore = getDayScore(currentDayIndex);
+      const weekScore = getWeekTotalScore();
+      const remainingDay = Math.max(0, DAY_TARGET - dayScore);
+      const dayName = DAY_NAMES[currentDayIndex];
+
+      let girlDetails = '';
+      appState.girlsInfo.forEach((g, idx) => {
+        const score = getGirlDayScore(currentDayIndex, idx);
+        girlDetails += `▫️ ${g.name}: ${score}/5 ${score === 5 ? '⭐' : '🌸'}\n`;
+      });
+
+      const reportText = 
+`✨ *تقرير شاحن القلب بنور الصلاة* 💖 (${dayName})
+مبادرة «طريق الجنة» • بطلات محراب النور
+
+🔋 *شاحن اليوم:* ${dayScore} من ${DAY_TARGET} نبضة نور (${Math.round((dayScore / DAY_TARGET) * 100)}%)
+${remainingDay === 0 ? '👑 *اكتمل نور اليوم بنجاح الفريق 100%!*' : `⏳ *باقي للفريق:* ${remainingDay} صلوات ويكتمل نور اليوم!`}
+
+🏆 *إجمالي رصيد الأسبوع:* ${weekScore} من ${WEEK_TARGET} نبضة نور ⭐
+
+📋 *حصاد البطلات اليوم:*
+${girlDetails}
+«الصلاة شاحن قلبك.. فكي الفيشة من دوشة الدنيا واشحني مع الملك الرحيم» 🔌🌸
+يلا يا بطلات نشجع بعض ونكمل شحنتنا! 💕`;
+
+      navigator.clipboard.writeText(reportText).then(() => {
+        showToast('تم نسخ تقرير الواتساب بنجاح! الصقيه في الجروب 📲');
+      }).catch(err => {
+        window.prompt('انسخي التقرير من هنا:', reportText);
+      });
+    }
+
+    /* ==========================================================
+       8. MODAL & TOAST
+       ========================================================== */
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    function showModal(title, text) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-body').textContent = text;
+      document.getElementById('celebration-modal').classList.add('open');
+    }
+
+    function closeModal() {
+      document.getElementById('celebration-modal').classList.remove('open');
+    }
+
+    function resetAllDataPrompt() {
+      if (confirm('هل أنتِ متأكدة من رغبتكِ في إعادة ضبط جميع بيانات الأسبوع والبدء من جديد؟')) {
+        appState = getInitialState();
+        saveState();
+        currentDayIndex = 0;
+        renderAll();
+        showToast('تمت إعادة ضبط التحدي بنجاح 🔄');
+      }
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    renderAll();
+  </script>
+</body>
+</html>
