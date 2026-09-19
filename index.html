@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>اشحني قلبكِ بالصلاة 💖🔋 | سارة سعيد</title>
+  <title>اشحني قلبكِ بالصلاة 💖🔋 | تحدي الـ 25 نبضة نور | سارة سعيد</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-gradient: linear-gradient(135deg, #1f0d2b 0%, #2f1245 50%, #170724 100%);
+      --bg-gradient: linear-gradient(135deg, #180924 0%, #2b0e3f 50%, #13051c 100%);
       --pink-glow: #ff4d8d;
       --gold-glow: #ffc83b;
       --cyan-energy: #00f2fe;
+      --green-glow: #2ecc71;
       --text-white: #ffffff;
       --text-soft: #f2e6f7;
       --card-bg: rgba(255, 255, 255, 0.07);
-      --card-border: rgba(255, 255, 255, 0.15);
+      --card-border: rgba(255, 255, 255, 0.14);
     }
 
     * {
@@ -36,12 +37,11 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-start;
-      padding: 20px 16px;
+      padding: 16px 14px 24px 14px;
       overflow-x: hidden;
       position: relative;
     }
 
-    /* Ambient background canvas */
     #ambient-canvas {
       position: fixed;
       top: 0;
@@ -60,7 +60,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
       margin: 0 auto;
       flex: 1 0 auto;
     }
@@ -68,45 +68,54 @@
     /* Header */
     .header-box {
       text-align: center;
+      width: 100%;
     }
 
     .badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(255, 77, 141, 0.2);
+      background: rgba(255, 77, 141, 0.18);
       border: 1px solid rgba(255, 77, 141, 0.5);
       color: #ffb8d2;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 700;
-      padding: 4px 16px;
+      padding: 4px 14px;
       border-radius: 50px;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     h1 {
-      font-size: 2rem;
+      font-size: 1.85rem;
       font-weight: 900;
       background: linear-gradient(135deg, #ffffff 0%, var(--gold-glow) 50%, var(--pink-glow) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       letter-spacing: -0.5px;
     }
 
     .subtitle {
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       color: var(--text-soft);
       font-weight: 500;
+      line-height: 1.4;
     }
 
-    /* Days Bar */
+    /* Week Days Bar */
+    .days-wrapper {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
     .days-bar {
       display: flex;
-      gap: 6px;
+      gap: 5px;
       width: 100%;
       overflow-x: auto;
-      padding: 4px 2px;
+      padding: 2px 0;
       scrollbar-width: none;
     }
 
@@ -116,21 +125,22 @@
 
     .day-pill {
       flex: 1;
-      min-width: 54px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      min-width: 52px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       border-radius: 12px;
-      padding: 6px 4px;
+      padding: 6px 3px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      user-select: none;
     }
 
     .day-pill.active {
-      background: linear-gradient(135deg, rgba(255, 77, 141, 0.4), rgba(255, 200, 59, 0.4));
+      background: linear-gradient(135deg, rgba(255, 77, 141, 0.35), rgba(255, 200, 59, 0.35));
       border-color: var(--gold-glow);
-      box-shadow: 0 0 12px rgba(255, 200, 59, 0.3);
-      transform: scale(1.05);
+      box-shadow: 0 0 10px rgba(255, 200, 59, 0.3);
+      transform: scale(1.04);
     }
 
     .day-pill-title {
@@ -141,34 +151,97 @@
     }
 
     .day-pill-status {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: 900;
       color: var(--gold-glow);
       display: block;
+      margin-top: 2px;
     }
 
-    /* Visual Center: Heart & Battery */
-    .visual-stage {
-      background: radial-gradient(circle at center, rgba(255, 77, 141, 0.15) 0%, rgba(30, 10, 45, 0.6) 70%);
-      border: 1.5px solid rgba(255, 200, 59, 0.3);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-radius: 28px;
-      padding: 20px 16px;
+    /* Live Sync Info Bar */
+    .sync-bar {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px;
+      padding: 5px 12px;
+      font-size: 0.75rem;
+      color: #d1badb;
+    }
+
+    .sync-refresh-btn {
+      background: transparent;
+      border: none;
+      color: var(--gold-glow);
+      font-weight: 700;
+      font-size: 0.75rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .sync-refresh-btn.spinning svg {
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Team Stage (Heart & 25-Battery) */
+    .team-stage {
+      background: radial-gradient(circle at center, rgba(255, 77, 141, 0.16) 0%, rgba(25, 8, 38, 0.65) 75%);
+      border: 1.5px solid rgba(255, 200, 59, 0.35);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 24px;
+      padding: 16px 14px;
       width: 100%;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 16px;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+      gap: 14px;
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.45);
       position: relative;
     }
 
-    /* Big Glowing Heart */
+    .team-stage-header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 8px;
+    }
+
+    .team-stage-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--gold-glow);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .team-target-badge {
+      font-size: 0.75rem;
+      font-weight: 800;
+      background: rgba(255, 200, 59, 0.15);
+      border: 1px solid var(--gold-glow);
+      color: #fff;
+      padding: 2px 10px;
+      border-radius: 20px;
+    }
+
+    /* Heart Center */
     .heart-box {
       position: relative;
-      width: 160px;
-      height: 145px;
+      width: 145px;
+      height: 130px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -176,10 +249,10 @@
 
     .heart-glow {
       position: absolute;
-      width: 170px;
-      height: 170px;
+      width: 155px;
+      height: 155px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(255, 77, 141, 0.6) 0%, rgba(255, 200, 59, 0.3) 40%, transparent 70%);
+      background: radial-gradient(circle, rgba(255, 77, 141, 0.5) 0%, rgba(255, 200, 59, 0.25) 45%, transparent 70%);
       filter: blur(16px);
       opacity: 0.5;
       transition: all 0.5s ease;
@@ -187,9 +260,9 @@
     }
 
     .heart-svg {
-      width: 145px;
-      height: 135px;
-      filter: drop-shadow(0 0 15px rgba(255, 77, 141, 0.6));
+      width: 135px;
+      height: 125px;
+      filter: drop-shadow(0 0 12px rgba(255, 77, 141, 0.6));
       transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
@@ -199,7 +272,7 @@
 
     @keyframes pulsePop {
       0% { transform: scale(1); }
-      40% { transform: scale(1.22); filter: drop-shadow(0 0 35px var(--gold-glow)); }
+      40% { transform: scale(1.18); filter: drop-shadow(0 0 30px var(--gold-glow)); }
       100% { transform: scale(1); }
     }
 
@@ -213,28 +286,39 @@
     }
 
     .heart-percent {
-      font-size: 1.85rem;
+      font-size: 1.65rem;
       font-weight: 900;
       color: #ffffff;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
       display: block;
       line-height: 1;
     }
 
     .heart-status-txt {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: 800;
       color: var(--gold-glow);
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+      display: block;
+      margin-top: 2px;
     }
 
-    /* Sleek Battery Bar */
+    /* 25-Cell Battery Matrix */
     .battery-box {
       width: 100%;
       display: flex;
       flex-direction: column;
-      align-items: center;
       gap: 6px;
+    }
+
+    .battery-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--text-soft);
+      padding: 0 2px;
     }
 
     .battery-container {
@@ -242,113 +326,146 @@
       align-items: center;
       gap: 4px;
       width: 100%;
-      max-width: 320px;
     }
 
     .battery-body {
       flex: 1;
       height: 38px;
-      background: rgba(0, 0, 0, 0.35);
-      border: 2px solid rgba(255, 255, 255, 0.3);
+      background: rgba(0, 0, 0, 0.4);
+      border: 2px solid rgba(255, 255, 255, 0.28);
       border-radius: 12px;
       padding: 4px;
       display: flex;
-      gap: 4px;
+      gap: 2.5px;
       position: relative;
-      overflow: hidden;
-      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.5);
+      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
     }
 
     .battery-cap {
       width: 6px;
       height: 18px;
-      background: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.35);
       border-radius: 0 4px 4px 0;
     }
 
     .battery-cell {
       flex: 1;
       height: 100%;
-      border-radius: 6px;
+      border-radius: 4px;
       background: rgba(255, 255, 255, 0.08);
-      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.35s ease;
       position: relative;
     }
 
     .battery-cell.filled {
       background: linear-gradient(135deg, var(--cyan-energy) 0%, var(--gold-glow) 60%, var(--pink-glow) 100%);
-      box-shadow: 0 0 10px rgba(0, 242, 254, 0.6);
+      box-shadow: 0 0 6px rgba(0, 242, 254, 0.55);
     }
 
-    .battery-cell.filled::after {
-      content: '⚡';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 0.75rem;
-      color: #fff;
-    }
-
-    .battery-info {
-      font-size: 0.85rem;
+    .team-prompt-box {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px dashed rgba(255, 200, 59, 0.35);
+      border-radius: 12px;
+      padding: 8px 12px;
+      text-align: center;
+      font-size: 0.82rem;
       font-weight: 700;
-      color: var(--text-soft);
-      display: flex;
-      justify-content: space-between;
+      color: #ffde7a;
+      line-height: 1.4;
       width: 100%;
-      max-width: 320px;
-      padding: 0 4px;
     }
 
-    /* 5 Prayer Buttons */
-    .prayers-list {
+    /* Private Section (My 5 Prayers) */
+    .private-box {
       width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 14px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
+    }
+
+    .private-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 6px;
+    }
+
+    .private-title {
+      font-size: 0.92rem;
+      font-weight: 900;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .private-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      background: rgba(255, 77, 141, 0.15);
+      border: 1px solid rgba(255, 77, 141, 0.4);
+      color: #ffb8d2;
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+
+    .private-sub {
+      font-size: 0.78rem;
+      color: #d1badb;
+      margin-top: -4px;
+    }
+
+    .prayers-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
     }
 
     .prayer-card {
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 12px 16px;
+      border-radius: 16px;
+      padding: 10px 14px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       user-select: none;
     }
 
     .prayer-card:hover {
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.1);
       transform: translateY(-1px);
     }
 
     .prayer-card:active {
-      transform: scale(0.97);
+      transform: scale(0.98);
     }
 
     .prayer-card.checked {
       background: linear-gradient(135deg, rgba(255, 77, 141, 0.35) 0%, rgba(255, 200, 59, 0.3) 100%);
       border-color: var(--gold-glow);
-      box-shadow: 0 4px 18px rgba(255, 200, 59, 0.35);
+      box-shadow: 0 4px 14px rgba(255, 200, 59, 0.3);
     }
 
     .prayer-right {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .prayer-icon {
-      font-size: 1.4rem;
-      width: 38px;
-      height: 38px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.1);
+      font-size: 1.3rem;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.08);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -357,41 +474,55 @@
 
     .prayer-card.checked .prayer-icon {
       background: linear-gradient(135deg, var(--pink-glow), var(--gold-glow));
-      transform: scale(1.1);
+      transform: scale(1.08);
     }
 
     .prayer-name {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 800;
       color: #fff;
     }
 
     .prayer-sub {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: #d1badb;
       font-weight: 500;
     }
 
-    .charge-status-badge {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.85rem;
+    .charge-badge {
+      font-size: 0.78rem;
       font-weight: 800;
       color: var(--gold-glow);
-      background: rgba(0, 0, 0, 0.25);
-      padding: 6px 12px;
-      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 5px 10px;
+      border-radius: 16px;
       border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
-    .prayer-card.checked .charge-status-badge {
+    .prayer-card.checked .charge-badge {
       background: var(--gold-glow);
-      color: #1f0d2b;
+      color: #1a0827;
       border-color: var(--gold-glow);
     }
 
-    /* Footer Note & Sarah's Name */
+    /* Week Summary Card */
+    .week-summary-box {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.28);
+      border: 1px solid rgba(255, 200, 59, 0.3);
+      border-radius: 14px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+
+    /* Footer & Signature */
     footer {
       width: 100%;
       text-align: center;
@@ -403,15 +534,14 @@
     .sarah-signature {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 200, 59, 0.4);
-      padding: 8px 20px;
+      border: 1px solid rgba(255, 200, 59, 0.35);
+      padding: 6px 18px;
       border-radius: 50px;
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 800;
       color: #fff;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
     }
 
     .sarah-name {
@@ -420,24 +550,34 @@
     }
 
     .initiative-name {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       color: #caaedb;
-      margin-top: 6px;
+      margin-top: 5px;
       display: block;
     }
 
-    /* Floating Heart Tap Anim */
+    .reset-btn {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 0.7rem;
+      margin-top: 8px;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    /* Sparkle Particle */
     .tap-sparkle {
       position: fixed;
       pointer-events: none;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       animation: floatUp 0.8s ease-out forwards;
       z-index: 9999;
     }
 
     @keyframes floatUp {
       0% { transform: translate(-50%, -50%) scale(0.6); opacity: 1; }
-      100% { transform: translate(-50%, -120px) scale(1.4); opacity: 0; }
+      100% { transform: translate(-50%, -110px) scale(1.4); opacity: 0; }
     }
 
     /* Celebration Modal */
@@ -447,7 +587,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(15, 5, 25, 0.85);
+      background: rgba(15, 5, 25, 0.88);
       backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
@@ -467,12 +607,12 @@
     .modal-card {
       background: linear-gradient(135deg, #2b113d 0%, #4a1c61 100%);
       border: 2px solid var(--gold-glow);
-      border-radius: 28px;
-      padding: 28px 20px;
+      border-radius: 26px;
+      padding: 24px 18px;
       max-width: 400px;
       width: 100%;
       text-align: center;
-      box-shadow: 0 16px 50px rgba(255, 200, 59, 0.4);
+      box-shadow: 0 16px 50px rgba(255, 200, 59, 0.45);
     }
 
     .modal-btn {
@@ -480,8 +620,8 @@
       border: none;
       color: #fff;
       font-weight: 800;
-      font-size: 1rem;
-      padding: 12px 28px;
+      font-size: 0.95rem;
+      padding: 10px 24px;
       border-radius: 50px;
       cursor: pointer;
       margin-top: 14px;
@@ -490,27 +630,43 @@
 </head>
 <body>
 
-  <!-- Floating Particles Canvas -->
+  <!-- Ambient Particles Canvas -->
   <canvas id="ambient-canvas"></canvas>
 
   <div class="container">
     
     <!-- Header -->
     <div class="header-box">
-      <div class="badge">🌸 طريق الجنة • تحدي الصلاة 🌸</div>
+      <div class="badge">🌸 طريق الجنة • تحدي الـ 25 نبضة نور 🌸</div>
       <h1>اشحني قلبكِ 💖</h1>
-      <p class="subtitle">«كل ما تصلي ركعة.. قلبكِ ينور وبطاريتكِ تزيد شحن!» 🔌✨</p>
+      <p class="subtitle">«تحدي الفريق الواحد: 5 بطلات × 5 صلوات = 25 نبضة نور يومياً!»</p>
     </div>
 
-    <!-- Days Bar (7 Days) -->
-    <div class="days-bar" id="days-bar">
-      <!-- Injected via JS -->
+    <!-- Days & Sync Navigation -->
+    <div class="days-wrapper">
+      <div class="days-bar" id="days-bar">
+        <!-- Injected via JS -->
+      </div>
+      <div class="sync-bar">
+        <span id="sync-time-txt">⚡ تحديث شحنة الفريق: مباشر</span>
+        <button class="sync-refresh-btn" id="refresh-btn" onclick="manualRefresh()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 4v6h-6"></path><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+          </svg>
+          تحديث النتيجة
+        </button>
+      </div>
     </div>
 
-    <!-- Visual Center: Glowing Heart & Battery -->
-    <div class="visual-stage">
+    <!-- Central Team Stage (Heart & 25-Battery) -->
+    <div class="team-stage">
       
-      <!-- Big Glowing Heart -->
+      <div class="team-stage-header">
+        <span class="team-stage-title">👑 شاحن فريق طريق الجنة (<span id="current-day-name">السبت</span>)</span>
+        <span class="team-target-badge">الهدف: 25 صلاة</span>
+      </div>
+
+      <!-- Glowing Heart -->
       <div class="heart-box">
         <div class="heart-glow" id="heart-glow"></div>
         <svg class="heart-svg" id="heart-svg" viewBox="0 0 100 90">
@@ -528,49 +684,61 @@
               <path d="M 50,85 A 40,40 0 0,1 5,40 A 25,25 0 0,1 50,22 A 25,25 0 0,1 95,40 A 40,40 0 0,1 50,85 Z" />
             </clipPath>
           </defs>
-          <!-- Empty Base Heart -->
           <path d="M 50,85 A 40,40 0 0,1 5,40 A 25,25 0 0,1 50,22 A 25,25 0 0,1 95,40 A 40,40 0 0,1 50,85 Z" 
                 fill="url(#heartBg)" stroke="rgba(255, 200, 59, 0.35)" stroke-width="1.5" />
-          <!-- Liquid Charged Level -->
           <g clip-path="url(#clipPath)">
             <rect id="heart-fill" x="0" y="90" width="100" height="90" fill="url(#heartGrad)" 
                   style="transition: y 0.5s ease-out;" />
           </g>
-          <!-- Border -->
           <path d="M 50,85 A 40,40 0 0,1 5,40 A 25,25 0 0,1 50,22 A 25,25 0 0,1 95,40 A 40,40 0 0,1 50,85 Z" 
                 fill="none" stroke="rgba(255, 255, 255, 0.4)" stroke-width="1.2" />
         </svg>
 
         <div class="heart-label">
-          <span class="heart-percent" id="heart-percent">0%</span>
+          <span class="heart-percent" id="heart-percent">0 / 25</span>
           <span class="heart-status-txt" id="heart-status-txt">جاهز للشحن</span>
         </div>
       </div>
 
-      <!-- Battery Bar with 5 Cells -->
+      <!-- 25-Cell Battery -->
       <div class="battery-box">
+        <div class="battery-header-row">
+          <span id="battery-status-txt">🔋 شحنة الفريق: 0 من 25 صلاة</span>
+          <span id="battery-pct-txt" style="color: var(--gold-glow); font-weight: 900;">0%</span>
+        </div>
+
         <div class="battery-container">
-          <div class="battery-body">
-            <div class="battery-cell" id="cell-0"></div>
-            <div class="battery-cell" id="cell-1"></div>
-            <div class="battery-cell" id="cell-2"></div>
-            <div class="battery-cell" id="cell-3"></div>
-            <div class="battery-cell" id="cell-4"></div>
+          <div class="battery-body" id="battery-cells">
+            <!-- 25 cells injected by JS -->
           </div>
           <div class="battery-cap"></div>
         </div>
+      </div>
 
-        <div class="battery-info">
-          <span id="battery-status">🔋 شحنة اليوم: 0 من 5 صلوات</span>
-          <span id="battery-pct" style="color: var(--gold-glow); font-weight: 900;">0%</span>
-        </div>
+      <!-- Dynamic Motivational Prompt -->
+      <div class="team-prompt-box" id="team-prompt-box">
+        ⏳ ابدأن بشحن اليوم.. صلاة الفجر نور وبركة في أول النهار!
       </div>
 
     </div>
 
-    <!-- 5 Prayer Buttons -->
-    <div class="prayers-list" id="prayers-list">
-      <!-- Injected via JS -->
+    <!-- Private Section (My Personal 5 Prayers) -->
+    <div class="private-box">
+      <div class="private-header">
+        <span class="private-title">🌸 صلواتي اليومية</span>
+        <span class="private-badge">خاصة وسريّة بينكِ وبين ربكِ 💖</span>
+      </div>
+      <p class="private-sub">«كل صلاة تصلينها تنير قلبكِ وتضيف نبضة نور لشاحن الفريق الـ 25» 🔌✨</p>
+
+      <div class="prayers-list" id="prayers-list">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+
+    <!-- Week Total Summary -->
+    <div class="week-summary-box">
+      <span>🏆 إجمالي رصيد الأسبوع:</span>
+      <span id="week-total-txt" style="color: var(--gold-glow);">0 من 175 نبضة نور ⭐</span>
     </div>
 
   </div>
@@ -584,15 +752,18 @@
       <span>✨</span>
     </div>
     <span class="initiative-name">مبادرة طريق الجنة • معاً حتى نلقى الله بقلبٍ سليم</span>
+    <div>
+      <button class="reset-btn" onclick="resetMyPrayers()">إعادة ضبط صلواتي لهذا اليوم</button>
+    </div>
   </footer>
 
   <!-- Celebration Modal -->
   <div class="modal-overlay" id="modal">
     <div class="modal-card">
-      <div style="font-size: 3.5rem; margin-bottom: 10px;">🎉💖👑</div>
-      <h2 style="color: var(--gold-glow); font-size: 1.5rem; margin-bottom: 8px;">مبارك يا بطلة النور!</h2>
-      <p style="color: #f3e6f7; font-size: 1rem; line-height: 1.6;">
-        اكتمل شحن قلبكِ اليوم 100%! الله يراكِ ومطّلع على سعيكِ وصدقكِ الجميل.. هنيئاً لقلبكِ هذا النور والطمأنينة.
+      <div style="font-size: 3.2rem; margin-bottom: 8px;">🎉👑💖</div>
+      <h2 style="color: var(--gold-glow); font-size: 1.45rem; margin-bottom: 6px;">مبارك يا بطلات النور!</h2>
+      <p style="color: #f3e6f7; font-size: 0.95rem; line-height: 1.6;">
+        اكتمل شحن فريق طريق الجنة اليوم 25 من 25 صلاة بنسبة 100%! الله يراكنّ ومطّلع على صدقكن وسعيكن الجميل.. هنيئاً لقلوبكن هذا النور والصلة بالله.
       </p>
       <button class="modal-btn" onclick="closeModal()">الحمد لله رب العالمين 🌸</button>
     </div>
@@ -600,50 +771,119 @@
 
   <script>
     /* ==========================================================
-       1. DATA & STATE
+       1. DATA CONFIGURATION & CLOUD KEYS
        ========================================================== */
     const PRAYERS = [
-      { id: 'fajr', name: 'صلاة الفجر', icon: '🌅', desc: 'نور وبركة أول النهار' },
-      { id: 'dhuhr', name: 'صلاة الظهر', icon: '☀️', desc: 'راحة وسط دوام المذاكرة' },
-      { id: 'asr', name: 'صلاة العصر', icon: '🌤️', desc: 'شحنة العصر والسكينة' },
-      { id: 'maghrib', name: 'صلاة المغرب', icon: '🌇', desc: 'غروب هادئ وحوار الفاتحة' },
-      { id: 'isha', name: 'صلاة العشاء', icon: '🌙', desc: 'ختام اليوم بقلب مطمئن' }
+      { id: 'fajr', name: 'صلاة الفجر', icon: '🌅', desc: 'نور وبركة أول النهار (+1 للفريق)' },
+      { id: 'dhuhr', name: 'صلاة الظهر', icon: '☀️', desc: 'راحة وسط دوام المذاكرة (+1 للفريق)' },
+      { id: 'asr', name: 'صلاة العصر', icon: '🌤️', desc: 'سكينة العصر والقلب الواعي (+1 للفريق)' },
+      { id: 'maghrib', name: 'صلاة المغرب', icon: '🌇', desc: 'غروب هادئ وحوار الفاتحة (+1 للفريق)' },
+      { id: 'isha', name: 'صلاة العشاء', icon: '🌙', desc: 'ختام اليوم بقلب مطمئن (+1 للفريق)' }
     ];
 
     const DAYS = ['السبت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة'];
 
-    const STORAGE_KEY = 'sarah_heart_charger_simple_v2';
+    // 7 Real-time Cloud Counters (1 per day)
+    const CLOUD_COUNTERS = [
+      { day: 'السبت', ns: 'bYpD-fhsD3hMppIJ', k: 'rzNJNiGkYrqa_8Y6', auth: '5a8bd7e6-a932-42ac-beb1-8ef4b763a770' },
+      { day: 'الأحد', ns: '87HtycXcblx6B471', k: 'DKVHW4LtpcnIQrKP', auth: '2e1f9c0f-8b32-437d-a87c-78ce36dfee03' },
+      { day: 'الإثنين', ns: 'SB94j0YJq8BFuM8u', k: 'ugBO3rDQyx0aDDMC', auth: '5efb0257-c814-4b20-8709-982576fb30e6' },
+      { day: 'الثلاثاء', ns: 'iQ8o_MIxiLQfKn1I', k: '0lyHxXp9xuGskPfg', auth: 'ac369536-a79e-4299-b367-c0129ba03cad' },
+      { day: 'الأربعاء', ns: 'W-8keHEkCVEjDOyG', k: 'QAATfGVZo15qHcz_', auth: '82c9537c-86ab-4d04-b9bf-bf1e813850c9' },
+      { day: 'الخميس', ns: 'lmwXn_LN1p3wI7Yv', k: 'a2NfBI1naSGUEP2C', auth: 'e6fbf96d-b31b-4d9c-8622-73054afc593b' },
+      { day: 'الجمعة', ns: 'MK0qrWCq7m7AtMVz', k: 'qFow7zdeviVyL5b5', auth: '3a18b0c7-5981-4122-9748-07670805d83e' }
+    ];
+
+    const STORAGE_KEY = 'sarah_my_prayers_v3';
     let currentDayIdx = 0;
 
-    // Load or create state safely
-    let state = loadState();
+    // Local state: this girl's 7 days × 5 prayers (Strictly Private)
+    let myPrayers = loadMyPrayers();
 
-    function loadState() {
+    // Team scores for 7 days (Synced with Cloud)
+    let teamScores = [0, 0, 0, 0, 0, 0, 0];
+
+    function loadMyPrayers() {
       try {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
           const parsed = JSON.parse(saved);
-          if (Array.isArray(parsed) && parsed.length === 7 && Array.isArray(parsed[0]) && parsed[0].length === 5) {
+          if (Array.isArray(parsed) && parsed.length === 7 && Array.isArray(parsed[0])) {
             return parsed;
           }
         }
       } catch (e) {}
-      // 7 days, each has 5 booleans
       const initial = [];
-      for (let i = 0; i < 7; i++) {
-        initial.push([false, false, false, false, false]);
-      }
+      for (let i = 0; i < 7; i++) initial.push([false, false, false, false, false]);
       return initial;
     }
 
-    function saveState() {
+    function saveMyPrayers() {
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(myPrayers));
       } catch (e) {}
     }
 
     /* ==========================================================
-       2. GENTLE WEB AUDIO SYNTHESIZER
+       2. REAL-TIME CLOUD SYNC LOGIC
+       ========================================================== */
+    async function fetchTeamScores() {
+      const refreshBtn = document.getElementById('refresh-btn');
+      refreshBtn.classList.add('spinning');
+      try {
+        for (let i = 0; i < 7; i++) {
+          const c = CLOUD_COUNTERS[i];
+          const res = await fetch(`https://abacus.jasoncameron.dev/get/${c.ns}/${c.k}`);
+          if (res.ok) {
+            const data = await res.json();
+            if (typeof data.value === 'number') {
+              teamScores[i] = Math.max(0, Math.min(25, data.value));
+            }
+          }
+        }
+        document.getElementById('sync-time-txt').textContent = `⚡ آخر تحديث: ${new Date().toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'})}`;
+      } catch (e) {
+        console.warn('Sync notice:', e);
+      } finally {
+        refreshBtn.classList.remove('spinning');
+        updateUI();
+      }
+    }
+
+    async function sendCloudDelta(dayIdx, delta) {
+      const c = CLOUD_COUNTERS[dayIdx];
+      // Optimistic local team update
+      teamScores[dayIdx] = Math.max(0, Math.min(25, teamScores[dayIdx] + delta));
+      updateUI();
+
+      try {
+        const res = await fetch(`https://abacus.jasoncameron.dev/update/${c.ns}/${c.k}?value=${delta}`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${c.auth}`
+          }
+        });
+        if (res.ok) {
+          const data = await res.json();
+          if (typeof data.value === 'number') {
+            teamScores[dayIdx] = Math.max(0, Math.min(25, data.value));
+            updateUI();
+          }
+        }
+      } catch (e) {
+        console.warn('Cloud sync error:', e);
+      }
+    }
+
+    function manualRefresh() {
+      fetchTeamScores();
+    }
+
+    // Auto-refresh every 20 seconds
+    setInterval(fetchTeamScores, 20000);
+
+    /* ==========================================================
+       3. GENTLE AUDIO SYNTHESIZER
        ========================================================== */
     let audioCtx = null;
     function playChime(isVictory = false) {
@@ -651,14 +891,12 @@
         if (!audioCtx) {
           audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         }
-        if (audioCtx.state === 'suspended') {
-          audioCtx.resume();
-        }
+        if (audioCtx.state === 'suspended') audioCtx.resume();
 
         const now = audioCtx.currentTime;
         const notes = isVictory 
-          ? [523.25, 659.25, 783.99, 1046.50, 1318.51] // C5, E5, G5, C6, E6
-          : [1046.50, 1318.51, 1567.98]; // Crystal bell
+          ? [523.25, 659.25, 783.99, 1046.50, 1318.51]
+          : [1046.50, 1318.51, 1567.98];
 
         notes.forEach((freq, i) => {
           const osc = audioCtx.createOscillator();
@@ -679,7 +917,7 @@
     }
 
     /* ==========================================================
-       3. AMBIENT PARTICLES
+       4. AMBIENT PARTICLES
        ========================================================== */
     try {
       const canvas = document.getElementById('ambient-canvas');
@@ -700,7 +938,7 @@
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
             this.size = Math.random() * 2 + 0.8;
-            this.speedY = -(Math.random() * 0.35 + 0.1);
+            this.speedY = -(Math.random() * 0.3 + 0.1);
             this.speedX = (Math.random() - 0.5) * 0.15;
             this.opacity = Math.random() * 0.6 + 0.2;
             this.color = Math.random() > 0.5 ? '#ffc83b' : '#ff4d8d';
@@ -732,33 +970,43 @@
         }
         animate();
       }
-    } catch (e) {
-      console.warn('Canvas particle skipped:', e);
-    }
+    } catch (e) {}
 
     /* ==========================================================
-       4. UI RENDERING & ACTIONS
+       5. UI RENDERING & USER ACTIONS
        ========================================================== */
     function renderDays() {
       const container = document.getElementById('days-bar');
       container.innerHTML = '';
       DAYS.forEach((name, idx) => {
-        const count = state[idx].filter(Boolean).length;
+        const score = teamScores[idx];
         const pill = document.createElement('div');
         pill.className = `day-pill ${idx === currentDayIdx ? 'active' : ''}`;
         pill.onclick = () => selectDay(idx);
         pill.innerHTML = `
           <span class="day-pill-title">${name}</span>
-          <span class="day-pill-status">${count === 5 ? '👑 100%' : `${count * 20}%`}</span>
+          <span class="day-pill-status">${score === 25 ? '👑 25/25' : `${score}/25`}</span>
         `;
         container.appendChild(pill);
       });
     }
 
+    function renderBatteryCells() {
+      const container = document.getElementById('battery-cells');
+      container.innerHTML = '';
+      const score = teamScores[currentDayIdx];
+
+      for (let i = 0; i < 25; i++) {
+        const cell = document.createElement('div');
+        cell.className = `battery-cell ${i < score ? 'filled' : ''}`;
+        container.appendChild(cell);
+      }
+    }
+
     function renderPrayers() {
       const container = document.getElementById('prayers-list');
       container.innerHTML = '';
-      const dayPrayers = state[currentDayIdx];
+      const dayPrayers = myPrayers[currentDayIdx];
 
       PRAYERS.forEach((p, idx) => {
         const isChecked = dayPrayers[idx];
@@ -774,67 +1022,73 @@
               <div class="prayer-sub">${p.desc}</div>
             </div>
           </div>
-          <div class="charge-status-badge">
-            ${isChecked ? '⚡ تم الشحن' : '+20% شحن'}
+          <div class="charge-badge">
+            ${isChecked ? '⚡ تم الشحن' : '+1 نبضة'}
           </div>
         `;
         container.appendChild(card);
       });
     }
 
-    function updateVisualStage() {
-      const count = state[currentDayIdx].filter(Boolean).length;
-      const pct = count * 20;
+    function updateUI() {
+      document.getElementById('current-day-name').textContent = DAYS[currentDayIdx];
+      renderDays();
+      renderBatteryCells();
+      renderPrayers();
+
+      const score = teamScores[currentDayIdx];
+      const pct = Math.round((score / 25) * 100);
 
       // Update Heart Level
       // 90 = empty, 15 = full
-      const fillY = 90 - (pct * 0.75);
+      const fillY = 90 - ((score / 25) * 75);
       document.getElementById('heart-fill').setAttribute('y', fillY);
 
       // Heart Labels
-      document.getElementById('heart-percent').textContent = `${pct}%`;
+      document.getElementById('heart-percent').textContent = `${score} / 25`;
       const statusTxt = document.getElementById('heart-status-txt');
-      if (pct === 0) statusTxt.textContent = 'جاهز للشحن';
-      else if (pct < 100) statusTxt.textContent = 'القلب بينور ✨';
+      if (score === 0) statusTxt.textContent = 'جاهز للشحن';
+      else if (score < 25) statusTxt.textContent = `القلب بينور (${pct}%) ✨`;
       else statusTxt.textContent = 'مشحون 100% 👑';
 
       // Heart Glow
       const glow = document.getElementById('heart-glow');
-      glow.style.opacity = `${0.3 + (pct * 0.007)}`;
-      if (pct === 100) glow.style.filter = 'blur(24px)';
-      else glow.style.filter = 'blur(16px)';
+      glow.style.opacity = `${0.3 + (score * 0.02)}`;
 
-      // Battery Cells
-      for (let i = 0; i < 5; i++) {
-        const cell = document.getElementById(`cell-${i}`);
-        if (state[currentDayIdx][i]) {
-          cell.classList.add('filled');
-        } else {
-          cell.classList.remove('filled');
-        }
+      // Battery Text
+      document.getElementById('battery-status-txt').textContent = `🔋 شحنة الفريق: ${score} من 25 صلاة`;
+      document.getElementById('battery-pct-txt').textContent = `${pct}%`;
+
+      // Prompt Box
+      const promptBox = document.getElementById('team-prompt-box');
+      if (score === 0) {
+        promptBox.innerHTML = '⏳ ابدأن بشحن اليوم.. صلاة الفجر نور وبركة أول النهار!';
+      } else if (score < 25) {
+        const remaining = 25 - score;
+        promptBox.innerHTML = `⚡ باقي للفريق <strong>${remaining}</strong> ${remaining === 1 ? 'صلاة' : 'صلوات'} ويكتمل نور اليوم 25/25! شدي حيلكِ! 💕`;
+      } else {
+        promptBox.innerHTML = '👑🎉 مبارك يا بطلات النور! اكتمل شحن اليوم 25/25 بنجاح الفريق الواحد!';
       }
 
-      // Battery Info
-      document.getElementById('battery-status').textContent = `🔋 شحنة ${DAYS[currentDayIdx]}: ${count} من 5 صلوات`;
-      document.getElementById('battery-pct').textContent = `${pct}%`;
+      // Week Total
+      const weekTotal = teamScores.reduce((a, b) => a + b, 0);
+      document.getElementById('week-total-txt').textContent = `${weekTotal} من 175 نبضة نور ⭐ (${Math.round((weekTotal / 175) * 100)}%)`;
     }
 
     function selectDay(idx) {
       currentDayIdx = idx;
-      renderDays();
-      renderPrayers();
-      updateVisualStage();
+      updateUI();
     }
 
     function togglePrayer(prayerIdx, event) {
-      const wasChecked = state[currentDayIdx][prayerIdx];
+      const wasChecked = myPrayers[currentDayIdx][prayerIdx];
       const isNowChecked = !wasChecked;
-      state[currentDayIdx][prayerIdx] = isNowChecked;
-      saveState();
+      myPrayers[currentDayIdx][prayerIdx] = isNowChecked;
+      saveMyPrayers();
 
-      renderDays();
-      renderPrayers();
-      updateVisualStage();
+      // Delta for team: +1 if checked, -1 if unchecked
+      const delta = isNowChecked ? 1 : -1;
+      sendCloudDelta(currentDayIdx, delta);
 
       if (isNowChecked) {
         // Trigger pulse on heart
@@ -843,16 +1097,16 @@
         void heartSvg.offsetWidth;
         heartSvg.classList.add('pulse-animation');
 
-        // Sparkle at click point
-        createSparkle(event.clientX, event.clientY);
+        // Sparkle at tap point
+        createSparkle(event ? event.clientX : null, event ? event.clientY : null);
 
-        // Check if 100% full
-        const total = state[currentDayIdx].filter(Boolean).length;
-        if (total === 5) {
+        // Sound & Celebration Check
+        const currentScore = teamScores[currentDayIdx];
+        if (currentScore >= 25) {
           playChime(true);
           setTimeout(() => {
             document.getElementById('modal').classList.add('show');
-          }, 300);
+          }, 400);
         } else {
           playChime(false);
         }
@@ -871,19 +1125,31 @@
       setTimeout(() => el.remove(), 800);
     }
 
+    function resetMyPrayers() {
+      if (confirm('هل ترغبين في إعادة ضبط صلواتكِ الخاصة لهذا اليوم؟')) {
+        let countChecked = 0;
+        for (let i = 0; i < 5; i++) {
+          if (myPrayers[currentDayIdx][i]) {
+            countChecked++;
+            myPrayers[currentDayIdx][i] = false;
+          }
+        }
+        saveMyPrayers();
+        if (countChecked > 0) {
+          sendCloudDelta(currentDayIdx, -countChecked);
+        }
+        updateUI();
+      }
+    }
+
     function closeModal() {
       document.getElementById('modal').classList.remove('show');
     }
 
     // Initialize Safely
     function initApp() {
-      try {
-        renderDays();
-        renderPrayers();
-        updateVisualStage();
-      } catch (err) {
-        console.error('Initialization error:', err);
-      }
+      updateUI();
+      fetchTeamScores();
     }
 
     if (document.readyState === 'loading') {
