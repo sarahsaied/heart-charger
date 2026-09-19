@@ -30,11 +30,12 @@
     body {
       background: var(--bg-gradient);
       min-height: 100vh;
+      min-height: 100dvh;
       color: var(--text-white);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
+      justify-content: flex-start;
       padding: 20px 16px;
       overflow-x: hidden;
       position: relative;
@@ -60,7 +61,8 @@
       flex-direction: column;
       align-items: center;
       gap: 16px;
-      margin: auto 0;
+      margin: 0 auto;
+      flex: 1 0 auto;
     }
 
     /* Header */
@@ -613,13 +615,18 @@
     const STORAGE_KEY = 'sarah_heart_charger_simple_v2';
     let currentDayIdx = 0;
 
-    // Load or create state
+    // Load or create state safely
     let state = loadState();
 
     function loadState() {
       try {
         const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) return JSON.parse(saved);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (Array.isArray(parsed) && parsed.length === 7 && Array.isArray(parsed[0]) && parsed[0].length === 5) {
+            return parsed;
+          }
+        }
       } catch (e) {}
       // 7 days, each has 5 booleans
       const initial = [];
@@ -674,54 +681,60 @@
     /* ==========================================================
        3. AMBIENT PARTICLES
        ========================================================== */
-    const canvas = document.getElementById('ambient-canvas');
-    const ctx = canvas.getContext('2d');
-    let particles = [];
+    try {
+      const canvas = document.getElementById('ambient-canvas');
+      if (canvas && canvas.getContext) {
+        const ctx = canvas.getContext('2d');
+        let particles = [];
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
-
-    class Particle {
-      constructor() { this.reset(); }
-      reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.size = Math.random() * 2 + 0.8;
-        this.speedY = -(Math.random() * 0.35 + 0.1);
-        this.speedX = (Math.random() - 0.5) * 0.15;
-        this.opacity = Math.random() * 0.6 + 0.2;
-        this.color = Math.random() > 0.5 ? '#ffc83b' : '#ff4d8d';
-      }
-      update() {
-        this.y += this.speedY;
-        this.x += this.speedX;
-        if (this.y < 0) {
-          this.y = canvas.height;
-          this.x = Math.random() * canvas.width;
+        function resizeCanvas() {
+          canvas.width = window.innerWidth || 360;
+          canvas.height = window.innerHeight || 640;
         }
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.globalAlpha = this.opacity;
-        ctx.fill();
-        ctx.globalAlpha = 1;
-      }
-    }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
 
-    for (let i = 0; i < 35; i++) particles.push(new Particle());
+        class Particle {
+          constructor() { this.reset(); }
+          reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2 + 0.8;
+            this.speedY = -(Math.random() * 0.35 + 0.1);
+            this.speedX = (Math.random() - 0.5) * 0.15;
+            this.opacity = Math.random() * 0.6 + 0.2;
+            this.color = Math.random() > 0.5 ? '#ffc83b' : '#ff4d8d';
+          }
+          update() {
+            this.y += this.speedY;
+            this.x += this.speedX;
+            if (this.y < 0) {
+              this.y = canvas.height;
+              this.x = Math.random() * canvas.width;
+            }
+          }
+          draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = this.color;
+            ctx.globalAlpha = this.opacity;
+            ctx.fill();
+            ctx.globalAlpha = 1;
+          }
+        }
 
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particles.forEach(p => { p.update(); p.draw(); });
-      requestAnimationFrame(animate);
+        for (let i = 0; i < 30; i++) particles.push(new Particle());
+
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          particles.forEach(p => { p.update(); p.draw(); });
+          requestAnimationFrame(animate);
+        }
+        animate();
+      }
+    } catch (e) {
+      console.warn('Canvas particle skipped:', e);
     }
-    animate();
 
     /* ==========================================================
        4. UI RENDERING & ACTIONS
@@ -862,10 +875,22 @@
       document.getElementById('modal').classList.remove('show');
     }
 
-    // Initialize
-    renderDays();
-    renderPrayers();
-    updateVisualStage();
+    // Initialize Safely
+    function initApp() {
+      try {
+        renderDays();
+        renderPrayers();
+        updateVisualStage();
+      } catch (err) {
+        console.error('Initialization error:', err);
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
   </script>
 </body>
 </html>
